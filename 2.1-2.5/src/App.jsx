@@ -75,7 +75,7 @@ const App = () => {
     },
   ];
 
-  return <Course courses={courses}></Course>;
+  return courses.map((course) => <Course key={course.id} courses={course} />);
 };
 
 export default App;
