@@ -2,21 +2,31 @@ const Header = ({ text }) => {
   return <h2>{text}</h2>;
 };
 
-const Content = ({ children }) => {
-  return <p>{children}</p>;
+const Content = ({ parts }) => {
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Part key={i} part={part} />
+      ))}
+    </>
+  );
 };
 
-const Part = ({ course }) => {
-  course.parts.map((item) => console.log(item));
+const Part = ({ part }) => {
+  return (
+    <>
+      <p>
+        {part.name} {part.exercises}
+      </p>
+    </>
+  );
 };
 
 const Course = ({ course }) => {
   return (
     <>
-      <Header text="Half Stack application development"></Header>
-      <Content>
-        <Part course={course}></Part>
-      </Content>
+      <Header text={course.name}></Header>
+      <Content parts={course.parts}></Content>
     </>
   );
 };
