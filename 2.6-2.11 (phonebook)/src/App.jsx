@@ -89,9 +89,17 @@ const App = () => {
     if (
       window.confirm(`Are you sure you want to delete ${name}? (id: ${id})`)
     ) {
-      personService.deletePerson(id);
-      setPersons(persons.filter((person) => person.id !== id));
-      setSuccessMessage(`${name} successfully deleted`);
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+          setSuccessMessage(`${name} successfully deleted`);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            `Person ${persons.name} was already removed from server`
+          );
+        });
     }
   };
 
