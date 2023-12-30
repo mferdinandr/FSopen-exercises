@@ -14,8 +14,20 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [number, setNumber] = useState('');
   const [personFilter, setPersonFilter] = useState([]);
-  const [successMessage, setsuccessMessage] = useState(null);
-  const [errorMessage, seterrorMessage] = useState('No users found');
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('No users found');
+
+  const checkIfExist = () => persons.name((a) => a.name == newName);
+  const cari = persons.find((person) => person.name === newName);
+
+  const addToPhoneBook = () => {
+    personService
+      .createPerson({ name: newName, number: number })
+      .then((response) => {
+        setPersons(persons.concat(res));
+        setsuccessMessage(`${newName} successfully added to the phone book`);
+      });
+  };
 
   useEffect(() => {
     axios.get('http://localhost:3001/persons').then((response) => {
@@ -37,15 +49,35 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const cari = persons.find((person) => person.name === newName);
+
     if (cari) {
-      alert(`${newName} is already added to phonebook`);
-      setNewName('');
+      if (
+        window.confirm(
+          `${newName} already exists. Do you want to update the number?`
+        )
+      ) {
+        const person = persons.find((person) => person.name === newName);
+        const updatedPerson = { ...person, number: number };
+        personService
+          .updatePerson(person.id, updatedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== returnedPerson.id ? person : returnedPerson
+              )
+            );
+            setSuccessMessage(`${returnedPerson.name} successfully updated!`);
+          })
+          .catch(() => {
+            setErrorMessage(`Unable to find and update ${newName}`);
+            setPersons(persons.filter((n) => n.id !== person.id));
+          });
+      }
     } else {
-      setPersons([...persons, { name: newName, id: id, number: number }]);
-      setNewName('');
-      setNumber('');
+      addToPhoneBook();
     }
+    setNewName('');
+    setNumber('');
   };
 
   const handleChangeFilter = (event) => {
