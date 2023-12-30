@@ -95,9 +95,26 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    personService.getAllPersons().then((res) => {
+      setPersons(res);
+      setErrorMessage(null);
+      setSuccessMessage(null);
+    });
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErrorMessage(null);
+      setSuccessMessage(null);
+    }, 3000);
+  }, [errorMessage, successMessage]);
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <ErrorMessage message={errorMessage}></ErrorMessage>
+      <SuccessMessage message={successMessage}></SuccessMessage>
       <Filter handleChangeFilter={handleChangeFilter}></Filter>
       <h2>Add a new</h2>
       <PersonForm
