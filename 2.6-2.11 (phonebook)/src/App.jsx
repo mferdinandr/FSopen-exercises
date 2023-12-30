@@ -24,8 +24,8 @@ const App = () => {
     personService
       .createPerson({ name: newName, number: number })
       .then((response) => {
-        setPersons(persons.concat(res));
-        setsuccessMessage(`${newName} successfully added to the phone book`);
+        setPersons(persons.concat(response));
+        setSuccessMessage(`${newName} successfully added to the phone book`);
       });
   };
 
@@ -86,6 +86,16 @@ const App = () => {
     );
   };
 
+  const handleDelete = (name, id) => {
+    if (
+      window.confirm(`Are you sure you want to delete ${name}? (id: ${id})`)
+    ) {
+      personService.deletePerson(id);
+      setPersons(persons.filter((person) => person.id !== id));
+      setSuccessMessage(`${name} successfully deleted`);
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -101,7 +111,11 @@ const App = () => {
       ></PersonForm>
       <h2>Numbers</h2>
       <ul>
-        <Persons personFilter={personFilter} persons={persons}></Persons>
+        <Persons
+          personFilter={personFilter}
+          persons={persons}
+          handleDelete={handleDelete}
+        ></Persons>
       </ul>
     </div>
   );
