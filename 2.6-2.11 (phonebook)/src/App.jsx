@@ -17,7 +17,6 @@ const App = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState('No users found');
 
-  const checkIfExist = () => persons.name((a) => a.name == newName);
   const cari = persons.find((person) => person.name === newName);
 
   const addToPhoneBook = () => {
