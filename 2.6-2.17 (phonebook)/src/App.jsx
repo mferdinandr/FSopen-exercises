@@ -55,10 +55,9 @@ const App = () => {
           `${newName} already exists. Do you want to update the number?`
         )
       ) {
-        const person = persons.find((person) => person.name === newName);
-        const updatedPerson = { ...person, number: number };
+        const updatedPerson = { ...cari, number: number };
         personService
-          .updatePerson(person.id, updatedPerson)
+          .updatePerson(cari.id, updatedPerson)
           .then((returnedPerson) => {
             setPersons(
               persons.map((person) =>
@@ -69,7 +68,7 @@ const App = () => {
           })
           .catch(() => {
             setErrorMessage(`Unable to find and update ${newName}`);
-            setPersons(persons.filter((n) => n.id !== person.id));
+            setPersons(persons.filter((n) => n.id !== cari.id));
           });
       }
     } else {
