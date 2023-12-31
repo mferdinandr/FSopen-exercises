@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SearchBar from './components/SearchBar';
+import Countries from './components/Countries';
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -7,27 +8,28 @@ const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api/';
 
 function App() {
   const [countries, setCountries] = useState([]);
-  const [searchCountrie, setSearchCountrie] = useState('');
-  const [countrieResult, setCountrieResult] = useState([]);
+  const [searchCountry, setSearchCountry] = useState('');
 
   useEffect(() => {
     axios.get(`${baseUrl}all`).then((response) => setCountries(response.data));
   }, []);
 
   const handleSearch = (event) => {
-    const url = `${baseUrl}/name/${event.target.value}`;
-    axios
-      .get(url)
-      .then((response) => setCountrieResult(response.data.name.common));
+    setSearchCountry(event.target.value);
   };
+
+  const countriesToDisplay =
+    searchCountry &&
+    countries.filter((country) => {
+      return country.name.common
+        .toLowerCase()
+        .includes(searchCountry.toLowerCase());
+    });
 
   return (
     <>
-      {/* <ul>{countries.map((countrie) => console.log(countrie.name.common))}</ul> */}
       <SearchBar handleSearch={handleSearch}></SearchBar>
-      <ul>
-        <li>{countrieResult}</li>
-      </ul>
+      <Countries data={countriesToDisplay}></Countries>
     </>
   );
 }
