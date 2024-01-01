@@ -18,18 +18,22 @@ function App() {
     setSearchCountry(event.target.value);
   };
 
-  const countriesToDisplay =
-    searchCountry &&
-    countries.filter((country) => {
-      return country.name.common
-        .toLowerCase()
-        .includes(searchCountry.toLowerCase());
-    });
+  const countriesToDisplay = searchCountry
+    ? countries.filter((country) => {
+        return country.name.common
+          .toLowerCase()
+          .includes(searchCountry.toLowerCase());
+      })
+    : [];
+
+  console.log('countryToDisplay', countriesToDisplay);
 
   return (
     <>
       <SearchBar handleSearch={handleSearch}></SearchBar>
-      <Countries data={countriesToDisplay}></Countries>
+      <ul>
+        <Countries data={countriesToDisplay}></Countries>
+      </ul>
     </>
   );
 }
