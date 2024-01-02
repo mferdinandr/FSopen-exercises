@@ -32,6 +32,8 @@ function App() {
     setShowData([data]);
   };
 
+  console.log('countriesToDisplay', countriesToDisplay);
+
   return (
     <>
       <SearchBar handleSearch={handleSearch}></SearchBar>
@@ -41,7 +43,7 @@ function App() {
           handleShow={handleShow}
         ></Countries>
       </ul>
-      {searchCountry && showData && <Country data={showData ? showData : []} />}
+      {<Countries data={showData ? showData : []} />}
     </>
   );
 }
