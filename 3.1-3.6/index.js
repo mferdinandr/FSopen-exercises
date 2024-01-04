@@ -65,17 +65,20 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
   const body = request.body;
 
-  if (!body.name && !body.number) {
+  if (!body.name) {
     return response.status(400).json({
-      error: 'name/number missing',
+      error: 'content missing',
     });
   }
 
   const note = {
+    id: generateId(),
     name: body.name,
     number: body.number,
-    id: generateId(),
   };
+
+  notes = notes.concat(note);
+  response.json(note);
 });
 
 const PORT = 3001;
