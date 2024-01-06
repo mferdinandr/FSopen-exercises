@@ -29,7 +29,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((response) => {
+    // 3.9
+    axios.get('http://localhost:3001/api/persons').then((response) => {
       setPersons(response.data);
     });
   }, []);
