@@ -46,8 +46,15 @@ app.get('/info', (request, response) => {
   <p>${now}</p>`);
 });
 
-app.post('/api/persons', (req, res, next) => {
-  const body = req.body;
+app.post('/api/persons', (request, response, next) => {
+  const body = request.body;
+
+  if (!body.name || !body.number) {
+    return response
+      .status(400)
+      .json({ error: 'Please provide a name and number.' })
+      .end();
+  }
 
   const person = new Person({
     name: body.name,
@@ -57,8 +64,30 @@ app.post('/api/persons', (req, res, next) => {
   person
     .save()
     .then((savedPerson) => savedPerson.toJSON())
-    .then((savedAndFormattedPerson) => res.json(savedAndFormattedPerson))
-    .catch((error) => next(error));
+    .then((savedAndFormattedPerson) => response.json(savedAndFormattedPerson))
+    .catch((err) => {
+      if (err.name === 'ValidatorError' || err.name === 'ValidationError') {
+        const keys = Object.keys(err.errors);
+        const messages = keys.map((e) => {
+          const error = err.errors[e];
+          const field = error.path[0].toUpperCase() + error.path.substr(1);
+
+          if (error.kind === 'unique') {
+            return `${field} already exists`;
+          }
+          if (error.kind === 'minlength') {
+            const length = error.message.match(/length \((\d+)\)/)[1];
+            return `${field} must be at least ${length} characters long`;
+          }
+
+          return `ValidationError in ${field}`;
+        });
+
+        next(new ErrorHandler(422, messages));
+      } else {
+        next(err);
+      }
+    });
 });
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -81,8 +110,23 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.use(errorHandler);
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      response.json(updatedPerson);
+    })
+    .catch((error) => next(error));
+});
+
 app.use(unknownEndpoint);
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
