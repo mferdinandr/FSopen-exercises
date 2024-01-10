@@ -81,8 +81,8 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.use(unknownEndpoint);
 app.use(errorHandler);
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
