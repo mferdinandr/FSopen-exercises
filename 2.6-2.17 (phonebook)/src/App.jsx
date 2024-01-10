@@ -7,6 +7,7 @@ import { Persons } from './components/Persons';
 import personService from './services/persons';
 import ErrorMessage from './components/ErrorMessage';
 import SuccessMessage from './components/SuccessMessage';
+import Service from './services/persons';
 
 const App = () => {
   const [id, setId] = useState(0);
@@ -19,12 +20,20 @@ const App = () => {
 
   const cari = persons.find((person) => person.name === newName);
 
+  useEffect(() => {
+    Service.getAllPersons().then((data) => setPersons(data));
+  }, []);
+
   const addToPhoneBook = () => {
     personService
       .createPerson({ name: newName, number: number })
       .then((response) => {
         setPersons(persons.concat(response));
         setSuccessMessage(`${newName} successfully added to the phone book`);
+      })
+      .catch((error) => {
+        setErrorMessage(error.response.data);
+        console.log(error.response.data);
       });
   };
 
@@ -67,7 +76,7 @@ const App = () => {
             );
             setSuccessMessage(`${returnedPerson.name} successfully updated!`);
           })
-          .catch(() => {
+          .catch((error) => {
             setErrorMessage(`Unable to find and update ${newName}`);
             setPersons(persons.filter((n) => n.id !== cari.id));
           });
