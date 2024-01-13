@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "12 Week a years",
+  "author": "Donod",
+  "url": "http:okedot.com",
+  "likes": 122
+}
