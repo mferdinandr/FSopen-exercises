@@ -88,6 +88,17 @@ describe('posters', () => {
     expect(titles).toContain('Valid blog post');
   });
 
+  test('a blog missed likes attribute can be the default value', async () => {
+    const newBlog = {
+      title: 'Valid blog post',
+      author: 'Valid author',
+      url: 'www.validUrl.com',
+    };
+
+    const response = await api.post('/api/blogs').send(newBlog);
+    expect(response.body.likes).toBe(0);
+  });
+
   // test('blog without title is not added', async () => {
   //   const newBlog = {
   //     author: 'Valid author',
