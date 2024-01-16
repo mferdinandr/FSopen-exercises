@@ -65,29 +65,29 @@ describe('getters', () => {
 //   })
 // })
 
-describe('posters', () => {
-  test('a valid blog can be added', async () => {
-    const newBlog = {
-      title: 'Valid blog post',
-      author: 'Valid author',
-      url: 'www.validUrl.com',
-      likes: 1,
-    };
+// describe('posters', () => {
+//   test('a valid blog can be added', async () => {
+//     const newBlog = {
+//       title: 'Valid blog post',
+//       author: 'Valid author',
+//       url: 'www.validUrl.com',
+//       likes: 1,
+//     };
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(200)
-      .expect('Content-Type', /application\/json/);
+//     await api
+//       .post('/api/blogs')
+//       .send(newBlog)
+//       .expect(200)
+//       .expect('Content-Type', /application\/json/);
 
-    const blogsAtEnd = await helper.blogsInDb();
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+//     const blogsAtEnd = await helper.blogsInDb();
+//     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
-    const titles = blogsAtEnd.map((r) => r.title);
+//     const titles = blogsAtEnd.map((r) => r.title);
 
-    expect(titles).toContain('Valid blog post');
-  });
-});
+//     expect(titles).toContain('Valid blog post');
+//   });
+// });
 
 //   test('blog without title is not added', async () => {
 //     const newBlog = {
@@ -172,17 +172,17 @@ describe('posters', () => {
 //   })
 // })
 
-// describe('structure tests', () => {
-//   test('blogs should have id but not _id', async () => {
-//     const blogs = await api
-//       .get('/api/blogs')
-//       .expect(200)
-//       .expect('Content-Type', /application\/json/)
+describe('structure tests', () => {
+  test('blogs should have id but not _id', async () => {
+    const blogs = await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
 
-//     expect(blogs.body[0].id).toBeDefined
-//     expect(blogs.body[0]).not.toHaveProperty('_id')
-//   })
-// })
+    expect(blogs.body[0].id).toBeDefined;
+    expect(blogs.body[0]).not.toHaveProperty('_id');
+  });
+});
 
 afterAll(() => {
   mongoose.connection.close();
