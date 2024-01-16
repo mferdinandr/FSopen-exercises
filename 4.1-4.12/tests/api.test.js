@@ -65,74 +65,72 @@ describe('getters', () => {
 //   })
 // })
 
-// describe('posters', () => {
-//   test('a valid blog can be added', async () => {
-//     const newBlog = {
-//       title: 'Valid blog post',
-//       author: 'Valid author',
-//       url: 'www.validUrl.com',
-//       likes: 1,
-//     };
+describe('posters', () => {
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'Valid blog post',
+      author: 'Valid author',
+      url: 'www.validUrl.com',
+      likes: 1,
+    };
 
-//     await api
-//       .post('/api/blogs')
-//       .send(newBlog)
-//       .expect(200)
-//       .expect('Content-Type', /application\/json/);
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
 
-//     const blogsAtEnd = await helper.blogsInDb();
-//     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
-//     const titles = blogsAtEnd.map((r) => r.title);
+    const titles = blogsAtEnd.map((r) => r.title);
 
-//     expect(titles).toContain('Valid blog post');
-//   });
-// });
+    expect(titles).toContain('Valid blog post');
+  });
 
-//   test('blog without title is not added', async () => {
-//     const newBlog = {
-//       author: 'Valid author',
-//       url: 'www.validUrl.com',
-//       likes: 1
-//     }
+  // test('blog without title is not added', async () => {
+  //   const newBlog = {
+  //     author: 'Valid author',
+  //     url: 'www.validUrl.com',
+  //     likes: 1,
+  //   };
 
-//     await api
-//       .post('/api/blogs')
-//       .send(newBlog)
-//       .expect(400)
+  //   await api.post('/api/blogs').send(newBlog).expect(400);
 
-//     const blogsAtEnd = await helper.blogsInDb()
-//     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
-//   })
+  //   const blogsAtEnd = await helper.blogsInDb();
+  //   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+  // });
 
-//   test('blog without title and url returns status 400', async () => {
-//     const newBlog = {
-//       author: 'Valid author',
-//       likes: 1
-//     }
+  // test('blog without title and url returns status 400', async () => {
+  //   const newBlog = {
+  //     author: 'Valid author',
+  //     likes: 1,
+  //   };
 
-//     await api
-//       .post('/api/blogs')
-//       .send(newBlog)
-//       .expect(400)
-//   })
+  //   await api.post('/api/blogs').send(newBlog).expect(400);
+  // });
 
-//   test('saved blog has correct format', async () => {
-//     const newBlog = { title: 'Correctly saved blog', author: 'Mr. Correct', url: 'www.correctly-saved.com', likes: 99 }
+  // test('saved blog has correct format', async () => {
+  //   const newBlog = {
+  //     title: 'Correctly saved blog',
+  //     author: 'Mr. Correct',
+  //     url: 'www.correctly-saved.com',
+  //     likes: 99,
+  //   };
 
-//     const savedBlog = await api
-//       .post('/api/blogs')
-//       .send(newBlog)
-//       .expect(201)
-//       .expect('Content-Type', /application\/json/)
+  //   const savedBlog = await api
+  //     .post('/api/blogs')
+  //     .send(newBlog)
+  //     .expect(200)
+  //     .expect('Content-Type', /application\/json/);
 
-//     expect(savedBlog.body.title).toBe('Correctly saved blog')
-//     expect(savedBlog.body.author).toBe('Mr. Correct')
-//     expect(savedBlog.body.url).toBe('www.correctly-saved.com')
-//     expect(savedBlog.body.likes).toBe(99)
-//     expect(savedBlog.body.id).toBeDefined()
-//   })
-// })
+  //   expect(savedBlog.body.title).toBe('Correctly saved blog');
+  //   expect(savedBlog.body.author).toBe('Mr. Correct');
+  //   expect(savedBlog.body.url).toBe('www.correctly-saved.com');
+  //   expect(savedBlog.body.likes).toBe(99);
+  //   expect(savedBlog.body.id).toBeDefined();
+  // });
+});
 
 // describe('deleters', () => {
 //   test('a blog can be deleted', async () => {
