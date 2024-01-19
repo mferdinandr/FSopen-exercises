@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+//   "username" : "Fefe",
+//   "name": "ferdinand",
+//   "password": "ferdin123"
 
+// "username" : "admin",
+// "name": "admin",
+// "password": "admin"
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
     required: true,
+    minLength: 3,
   },
   name: {
     type: String,

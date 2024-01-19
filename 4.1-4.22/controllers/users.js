@@ -11,12 +11,12 @@ usersRouter.post('/', async (request, response) => {
   const body = request.body;
 
   const saltRounds = 10;
-  // if (body.username.length <= 3) {
-  //   return response.status(400).send({ error: 'username length less than 3' });
-  // }
-  // if (body.password.length <= 3) {
-  //   return response.status(400).send({ error: 'password length less than 3' });
-  // }
+  if (!body.password) {
+    return response.status(400).send({ error: 'password must given' });
+  }
+  if (body.password.length <= 3) {
+    return response.status(400).send({ error: 'password length less than 3' });
+  }
 
   const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
