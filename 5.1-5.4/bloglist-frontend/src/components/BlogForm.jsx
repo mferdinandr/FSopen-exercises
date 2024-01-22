@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import blogService from '../services/blogs';
+import Notification from './Notification';
 
-const BlogForm = ({ blogs, setBlogs }) => {
+const CreateBlogForm = ({ blogs, setBlogs }) => {
   const [title, setTitle] = useState('');
   const [author, setAuhtor] = useState('');
   const [url, setUrl] = useState('');
+  const [message, setMessage] = useState(null);
 
   const handleAddBlog = (event) => {
     event.preventDefault();
@@ -17,10 +19,12 @@ const BlogForm = ({ blogs, setBlogs }) => {
     blogService.create(blogObject).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
     });
+    setMessage(`a new bllog ${title}, by ${author} added`);
   };
 
   return (
     <div>
+      <Notification message={message} type={'success'}></Notification>
       <h2>Create new blog</h2>
       <form onSubmit={handleAddBlog}>
         <div>
@@ -53,4 +57,4 @@ const BlogForm = ({ blogs, setBlogs }) => {
   );
 };
 
-export default BlogForm;
+export default CreateBlogForm;

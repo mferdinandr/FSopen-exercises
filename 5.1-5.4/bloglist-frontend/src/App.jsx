@@ -3,12 +3,15 @@ import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import BlogForm from './components/BlogForm';
+import Notification from './components/Notification';
+import CreateBlogForm from './components/BlogForm';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -38,8 +41,11 @@ const App = () => {
       setUser(user);
       setUsername('');
       setPassword('');
-    } catch {
-      console.log('wrong credential');
+    } catch (exception) {
+      setMessage('Wrong Username or Password');
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
@@ -88,7 +94,7 @@ const App = () => {
           </button>
           <p>{user.name} logged in</p>
 
-          <BlogForm blogs={blogs} setBlogs={setBlogs}></BlogForm>
+          <CreateBlogForm blogs={blogs} setBlogs={setBlogs}></CreateBlogForm>
 
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
@@ -98,7 +104,12 @@ const App = () => {
     );
   };
 
-  return <div>{user === null ? loginForm() : blogForm()}</div>;
+  return (
+    <>
+      <Notification message={message} type={'error'}></Notification>
+      <div>{user === null ? loginForm() : blogForm()}</div>
+    </>
+  );
 };
 
 export default App;
