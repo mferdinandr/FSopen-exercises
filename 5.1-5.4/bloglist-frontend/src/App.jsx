@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import BlogForm from './components/BlogForm';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -77,22 +78,27 @@ const App = () => {
     );
   };
 
-  const noteForm = () => {
+  const blogForm = () => {
     return (
       <div>
-        <h2>Blogs</h2>
-        <button type="submit" onClick={handleLogout}>
-          logout
-        </button>
-        <p>{user.name} logged in</p>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
+        <div>
+          <h2>Blogs</h2>
+          <button type="submit" onClick={handleLogout}>
+            logout
+          </button>
+          <p>{user.name} logged in</p>
+
+          <BlogForm blogs={blogs} setBlogs={setBlogs}></BlogForm>
+
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
+        </div>
       </div>
     );
   };
 
-  return <div>{user === null ? loginForm() : noteForm()}</div>;
+  return <div>{user === null ? loginForm() : blogForm()}</div>;
 };
 
 export default App;
