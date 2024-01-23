@@ -5,6 +5,7 @@ import loginService from './services/login';
 import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import CreateBlogForm from './components/BlogForm';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -94,7 +95,9 @@ const App = () => {
           </button>
           <p>{user.name} logged in</p>
 
-          <CreateBlogForm blogs={blogs} setBlogs={setBlogs}></CreateBlogForm>
+          <Togglable buttonLabel={'New note'}>
+            <CreateBlogForm blogs={blogs} setBlogs={setBlogs}></CreateBlogForm>
+          </Togglable>
 
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
