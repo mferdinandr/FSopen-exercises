@@ -3,23 +3,19 @@ import blogService from '../services/blogs';
 import loginService from '../services/login';
 import Input from './Fragments/Input';
 import Button from './Fragments/Button';
+import { useState } from 'react';
 
-const LoginForm = ({
-  username,
-  password,
-  setUsername,
-  setPassword,
-  setUser,
-  setMessage,
-  setTypeMessage,
-}) => {
+const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
     try {
       const user = await loginService.login({
-        username,
-        password,
+        username: username,
+        password: password,
       });
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));

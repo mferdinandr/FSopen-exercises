@@ -72,14 +72,10 @@ const App = () => {
   return (
     <>
       <Notification type={typeMessage} message={message}></Notification>
-      
+
       <div>
         {user === null ? (
           <LoginForm
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
             setUser={setUser}
             setMessage={setMessage}
             setTypeMessage={setTypeMessage}

@@ -3,7 +3,7 @@ import blogService from '../services/blogs';
 import Notification from './Notification';
 import Section from './Fragments/Section';
 
-const CreateBlogForm = ({ blogs, setBlogs, blogAddRef }) => {
+const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
   const [title, setTitle] = useState('');
   const [author, setAuhtor] = useState('');
   const [url, setUrl] = useState('');
@@ -67,4 +67,4 @@ const CreateBlogForm = ({ blogs, setBlogs, blogAddRef }) => {
   );
 };
 
-export default CreateBlogForm;
+export default BlogForm;
