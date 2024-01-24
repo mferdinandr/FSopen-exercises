@@ -1,3 +1,4 @@
+import ButtonClick from './Fragments/ButtonClick';
 import { useImperativeHandle, useState, forwardRef } from 'react';
 
 const Togglable = forwardRef((props, refs) => {
@@ -18,11 +19,13 @@ const Togglable = forwardRef((props, refs) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
+        <ButtonClick onClick={toggleVisibility} color1="blue">
+          {buttonLabel}
+        </ButtonClick>
       </div>
       <div style={showWhenVisible}>
         {children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <ButtonClick onClick={toggleVisibility} color1='red'>Cancel</ButtonClick>
       </div>
     </div>
   );

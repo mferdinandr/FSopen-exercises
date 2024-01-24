@@ -47,11 +47,9 @@ const App = () => {
     return (
       <div>
         <div>
-          <h2>Blogs</h2>
-          <ButtonClick onClick={handleLogout} >
-            Logout
-          </ButtonClick>
-          <p>{user.name} logged in</p>
+          <Section titleSection={'Blogs'} />
+          <ButtonClick onClick={handleLogout} color1={"red"}>Logout</ButtonClick>
+          <h2>{user.name} logged in</h2>
 
           <Togglable buttonLabel={'New blog'} ref={blogAddRef}>
             <CreateBlogForm
