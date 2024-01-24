@@ -1,9 +1,9 @@
-import Section from './Fragments/Section';
-import blogService from '../services/blogs';
-import loginService from '../services/login';
-import Input from './Fragments/Input';
+import Section from '../Fragments/Section';
+import blogService from '../../services/blogs';
+import loginService from '../../services/login';
+import Input from '../Fragments/Input';
 import { useState } from 'react';
-import ButtonForm from './Fragments/ButtonForm';
+import ButtonForm from '../Fragments/ButtonForm';
 
 const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
   const [username, setUsername] = useState('');

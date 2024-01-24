@@ -1,23 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
-import loginService from './services/login';
-import BlogForm from './components/BlogForm';
+
 import Notification from './components/Notification';
-import CreateBlogForm from './components/BlogForm';
-import Togglable from './components/Togglable';
+import Blogs from './components/Pages/Blogs';
+
 import Section from './components/Fragments/Section';
-import Input from './components/Fragments/Input';
-import Button from './components/Fragments/ButtonForm';
-import LoginForm from './components/LoginForm';
+
+import LoginForm from './components/Pages/LoginForm';
 import ButtonClick from './components/Fragments/ButtonClick';
 
 import './index.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
   const [typeMessage, setTypeMessage] = useState('error');
@@ -43,31 +39,33 @@ const App = () => {
     setUser(null);
   };
 
-  const blogForm = () => {
-    return (
-      <div>
-        <div>
-          <Section titleSection={'Blogs'} />
-          <ButtonClick onClick={handleLogout} color1={"red"}>Logout</ButtonClick>
-          <h2>{user.name} logged in</h2>
+  // const blogForm = () => {
+  //   return (
+  //     <div>
+  //       <div>
+  //         <Section titleSection={'Blogs'} />
+  //         <ButtonClick onClick={handleLogout} color1={'red'}>
+  //           Logout
+  //         </ButtonClick>
+  //         <h2>{user.name} logged in</h2>
 
-          <Togglable buttonLabel={'New blog'} ref={blogAddRef}>
-            <CreateBlogForm
-              blogs={blogs}
-              setBlogs={setBlogs}
-              blogAddRef={blogAddRef}
-              setMessage={setMessage}
-              setTypeMessage={setTypeMessage}
-            ></CreateBlogForm>
-          </Togglable>
+  //         <Togglable buttonLabel={'New blog'} ref={blogAddRef}>
+  //           <BlogForm
+  //             blogs={blogs}
+  //             setBlogs={setBlogs}
+  //             blogAddRef={blogAddRef}
+  //             setMessage={setMessage}
+  //             setTypeMessage={setTypeMessage}
+  //           ></BlogForm>
+  //         </Togglable>
 
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
-        </div>
-      </div>
-    );
-  };
+  //         {blogs.map((blog) => (
+  //           <Blog key={blog.id} blog={blog} />
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   return (
     <>
@@ -81,7 +79,7 @@ const App = () => {
             setTypeMessage={setTypeMessage}
           ></LoginForm>
         ) : (
-          blogForm()
+          <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />
         )}
       </div>
     </>

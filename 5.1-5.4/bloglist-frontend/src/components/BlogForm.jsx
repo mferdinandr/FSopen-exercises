@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import blogService from '../services/blogs';
-import Notification from './Notification';
 import Section from './Fragments/Section';
+import blogService from '../services/blogs';
+import loginService from '../services/login';
 import Input from './Fragments/Input';
+import { useState } from 'react';
 import ButtonForm from './Fragments/ButtonForm';
 
 const BlogForm = ({
@@ -40,9 +40,9 @@ const BlogForm = ({
   };
 
   return (
-    <div>
+    <div className='my-4'>
       <Section titleSection={'Create New Blog'}>
-        <form onSubmit={handleAddBlog} className="w-1/2 my-4">
+        <form onSubmit={handleAddBlog} className="w-1/2 my-2">
           <Input
             type="text"
             value={title}
