@@ -2,8 +2,8 @@ import Section from './Fragments/Section';
 import blogService from '../services/blogs';
 import loginService from '../services/login';
 import Input from './Fragments/Input';
-import Button from './Fragments/Button';
 import { useState } from 'react';
+import ButtonForm from './Fragments/ButtonForm';
 
 const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
   const [username, setUsername] = useState('');
@@ -35,12 +35,12 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
       setTypeMessage('error');
       setTimeout(() => {
         setMessage(null);
-      },3000);
+      }, 3000);
     }
   };
 
   return (
-    <>
+    <div className="w-3/4 sm:w-1/3 m-auto flex flex-col justify-center h-screen sm:pb-10">
       <Section titleSection={'Log In to Application'}>
         <form onSubmit={handleLogin}>
           <Input
@@ -57,10 +57,10 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
             label="Password"
             onChange={({ target }) => setPassword(target.value)}
           ></Input>
-          <Button>Login</Button>
+          <ButtonForm>Login</ButtonForm>
         </form>
       </Section>
-    </>
+    </div>
   );
 };
 

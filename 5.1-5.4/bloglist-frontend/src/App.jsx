@@ -8,8 +8,9 @@ import CreateBlogForm from './components/BlogForm';
 import Togglable from './components/Togglable';
 import Section from './components/Fragments/Section';
 import Input from './components/Fragments/Input';
-import Button from './components/Fragments/Button';
+import Button from './components/Fragments/ButtonForm';
 import LoginForm from './components/LoginForm';
+import ButtonClick from './components/Fragments/ButtonClick';
 
 import './index.css';
 
@@ -47,9 +48,9 @@ const App = () => {
       <div>
         <div>
           <h2>Blogs</h2>
-          <button type="submit" onClick={handleLogout}>
-            logout
-          </button>
+          <ButtonClick onClick={handleLogout} >
+            Logout
+          </ButtonClick>
           <p>{user.name} logged in</p>
 
           <Togglable buttonLabel={'New blog'} ref={blogAddRef}>
@@ -57,7 +58,8 @@ const App = () => {
               blogs={blogs}
               setBlogs={setBlogs}
               blogAddRef={blogAddRef}
-              messageBlogAdd={'Success'}
+              setMessage={setMessage}
+              setTypeMessage={setTypeMessage}
             ></CreateBlogForm>
           </Togglable>
 

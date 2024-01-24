@@ -1,7 +1,7 @@
 const Section = ({ titleSection, children }) => {
   return (
-    <div className="w-3/4 sm:w-1/3 m-auto flex flex-col justify-center h-screen sm:pb-10">
-      <h2 className="font-bold text-xl sm:text-3xl text-center text-blue-800">
+    <div>
+      <h2 className="font-bold text-xl sm:text-3xl text-blue-800 mb-3">
         {titleSection}
       </h2>
       <div>{children}</div>

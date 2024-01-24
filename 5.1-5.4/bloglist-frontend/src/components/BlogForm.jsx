@@ -2,12 +2,19 @@ import { useState } from 'react';
 import blogService from '../services/blogs';
 import Notification from './Notification';
 import Section from './Fragments/Section';
+import Input from './Fragments/Input';
+import ButtonForm from './Fragments/ButtonForm';
 
-const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
+const BlogForm = ({
+  blogs,
+  setBlogs,
+  blogAddRef,
+  setMessage,
+  setTypeMessage,
+}) => {
   const [title, setTitle] = useState('');
   const [author, setAuhtor] = useState('');
   const [url, setUrl] = useState('');
-  const [message, setMessage] = useState(null);
 
   const handleAddBlog = (event) => {
     event.preventDefault();
@@ -22,6 +29,7 @@ const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
       setBlogs(blogs.concat(returnedBlog));
     });
     setMessage(`a new bllog ${title}, by ${author} added`);
+    setTypeMessage('success');
     setTimeout(() => {
       setMessage(null);
     }, 5000);
@@ -33,34 +41,30 @@ const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
 
   return (
     <div>
-      <Notification message={message} type={'success'}></Notification>
-      <Section titleSection={'Craate Bew Blog'}>
-        <form onSubmit={handleAddBlog}>
-          <div>
-            title
-            <input
-              type="text"
-              value={title}
-              onChange={({ target }) => setTitle(target.value)}
-            />
-          </div>
-          <div>
-            author
-            <input
-              type="text"
-              value={author}
-              onChange={({ target }) => setAuhtor(target.value)}
-            />
-          </div>
-          <div>
-            url
-            <input
-              type="text"
-              value={url}
-              onChange={({ target }) => setUrl(target.value)}
-            />
-          </div>
-          <button type="submit">create</button>
+      <Section titleSection={'Create New Blog'}>
+        <form onSubmit={handleAddBlog} className="w-1/2 my-4">
+          <Input
+            type="text"
+            value={title}
+            name="Title"
+            label="Title"
+            onChange={({ target }) => setTitle(target.value)}
+          ></Input>
+          <Input
+            type="text"
+            value={author}
+            name="Author"
+            label="Author"
+            onChange={({ target }) => setAuhtor(target.value)}
+          ></Input>
+          <Input
+            type="text"
+            value={url}
+            name="URL"
+            label="URL"
+            onChange={({ target }) => setUrl(target.value)}
+          ></Input>
+          <ButtonForm>Create</ButtonForm>
         </form>
       </Section>
     </div>
