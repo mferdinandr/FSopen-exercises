@@ -24,12 +24,18 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
       setUser(user);
       setUsername('');
       setPassword('');
+
+      setMessage('Success to login');
+      setTypeMessage('success');
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     } catch (exception) {
       setMessage('Wrong Username or Password');
       setTypeMessage('error');
       setTimeout(() => {
         setMessage(null);
-      }, 3000);
+      },3000);
     }
   };
 
