@@ -42,9 +42,9 @@ const BlogForm = ({
   };
 
   return (
-    <div className="my-4">
+    <div className="mt-4">
       <Section titleSection={'Create New Blog'}>
-        <form onSubmit={handleAddBlog} className="w-1/2 my-2">
+        <form onSubmit={handleAddBlog} className="w-full my-2">
           <Input
             type="text"
             value={title}

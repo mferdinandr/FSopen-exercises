@@ -20,7 +20,7 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
   };
 
   return (
-    <div className="mx-10 my-5">
+    <div className="mx-7 sm:mx-20 my-5">
       <div className="flex justify-between">
         <Section titleSection={'Blogs'} />
         <ButtonClick onClick={handleLogout} color1="red">
@@ -32,7 +32,11 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
         <span className="font-bold">{user.name}</span> logged in
       </h2>
 
-      <Togglable buttonLabel={'New blog'} ref={blogAddRef}>
+      <Togglable
+        buttonLabelToOpen={'New blog'}
+        buttonLabelToClose={'Close'}
+        ref={blogAddRef}
+      >
         <BlogForm
           blogAddRef={blogAddRef}
           blogs={blogs}
@@ -42,9 +46,11 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
         />
       </Togglable>
 
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <div className="mt-5">
+        {blogs.map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
+      </div>
     </div>
   );
 };
