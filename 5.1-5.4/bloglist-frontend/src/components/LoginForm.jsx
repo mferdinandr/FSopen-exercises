@@ -1,7 +1,18 @@
 import Section from './Fragments/Section';
 import blogService from '../services/blogs';
+import loginService from '../services/login';
+import Input from './Fragments/Input';
+import Button from './Fragments/Button';
 
-const LoginForm = () => {
+const LoginForm = ({
+  username,
+  password,
+  setUsername,
+  setPassword,
+  setUser,
+  setMessage,
+  setTypeMessage,
+}) => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -19,9 +30,10 @@ const LoginForm = () => {
       setPassword('');
     } catch (exception) {
       setMessage('Wrong Username or Password');
+      setTypeMessage('error');
       setTimeout(() => {
         setMessage(null);
-      }, 5000);
+      }, 3000);
     }
   };
 
@@ -29,25 +41,21 @@ const LoginForm = () => {
     <>
       <Section titleSection={'Log In to Application'}>
         <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button type="submit">login</button>
+          <Input
+            type="text"
+            value={username}
+            name="Username"
+            label="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          ></Input>
+          <Input
+            type="password"
+            value={password}
+            name="Password"
+            label="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          ></Input>
+          <Button>Login</Button>
         </form>
       </Section>
     </>

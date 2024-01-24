@@ -8,6 +8,8 @@ import CreateBlogForm from './components/BlogForm';
 import Togglable from './components/Togglable';
 import Section from './components/Fragments/Section';
 import Input from './components/Fragments/Input';
+import Button from './components/Fragments/Button';
+import LoginForm from './components/LoginForm';
 
 import './index.css';
 
@@ -17,6 +19,7 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
+  const [typeMessage, setTypeMessage] = useState('error');
 
   const blogAddRef = useRef(null);
 
@@ -33,59 +36,10 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
-
-      blogService.setToken(user.token);
-      setUser(user);
-      setUsername('');
-      setPassword('');
-    } catch (exception) {
-      setMessage('Wrong Username or Password');
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-    }
-  };
-
   const handleLogout = async (event) => {
     event.preventDefault();
     window.localStorage.clear();
     setUser(null);
-  };
-
-  const loginForm = () => {
-    return (
-      <>
-        <Section titleSection={'Log In to Application'}>
-          <form onSubmit={handleLogin}>
-            <Input
-              type="text"
-              value={username}
-              name="Username"
-              label="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            ></Input>
-            <Input
-              type="password"
-              value={password}
-              name="Password"
-              label="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            ></Input>
-            <button type="submit">login</button>
-          </form>
-        </Section>
-      </>
-    );
   };
 
   const blogForm = () => {
@@ -117,8 +71,23 @@ const App = () => {
 
   return (
     <>
-      <Notification type={'error'} message={message}></Notification>
-      <div>{user === null ? loginForm() : blogForm()}</div>
+      <Notification type={typeMessage} message={message}></Notification>
+      
+      <div>
+        {user === null ? (
+          <LoginForm
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            setUser={setUser}
+            setMessage={setMessage}
+            setTypeMessage={setTypeMessage}
+          ></LoginForm>
+        ) : (
+          blogForm()
+        )}
+      </div>
     </>
   );
 };
