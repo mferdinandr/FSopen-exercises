@@ -1,9 +1,9 @@
-import Section from './Fragments/Section';
-import blogService from '../services/blogs';
-import loginService from '../services/login';
-import Input from './Fragments/Input';
+import Section from '../Elements/Section';
+import blogService from '../../services/blogs';
+import loginService from '../../services/login';
+import Input from '../Elements/Input';
 import { useState } from 'react';
-import ButtonForm from './Fragments/ButtonForm';
+import ButtonForm from '../Elements/ButtonForm';
 
 const BlogForm = ({
   blogs,
@@ -19,6 +19,7 @@ const BlogForm = ({
   const handleAddBlog = (event) => {
     event.preventDefault();
     blogAddRef.current();
+
     const blogObject = {
       title: title,
       author: author,
@@ -28,7 +29,8 @@ const BlogForm = ({
     blogService.create(blogObject).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
     });
-    setMessage(`a new bllog ${title}, by ${author} added`);
+
+    setMessage(`a new blog ${title}, by ${author} added`);
     setTypeMessage('success');
     setTimeout(() => {
       setMessage(null);
@@ -40,7 +42,7 @@ const BlogForm = ({
   };
 
   return (
-    <div className='my-4'>
+    <div className="my-4">
       <Section titleSection={'Create New Blog'}>
         <form onSubmit={handleAddBlog} className="w-1/2 my-2">
           <Input

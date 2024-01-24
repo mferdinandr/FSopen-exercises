@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .error {
-  color: red;
-  border-color: red;
+  border-color: white;
+  background-color: red;
 }
 
 .success {
-  color: rgb(26, 144, 26);
   border-color: rgb(26, 144, 26);
+  background-color: rgb(26, 144, 26);
 }
