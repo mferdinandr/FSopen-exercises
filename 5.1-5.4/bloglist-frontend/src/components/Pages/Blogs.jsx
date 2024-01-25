@@ -5,12 +5,16 @@ import Blog from '../Fragment/Blog';
 import blogService from '../../services/blogs';
 import { useState, useEffect } from 'react';
 import BlogForm from '../Fragment/BlogForm';
+import blogs from '../../services/blogs';
 
 const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.getAll().then((blogs) => {
+      blogs.sort((a, b) => b.likes - a.likes);
+      setBlogs(blogs);
+    });
   }, []);
 
   const handleLogout = async (event) => {
@@ -23,12 +27,12 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
     <div className="mx-7 sm:mx-20 my-5">
       <div className="flex justify-between">
         <Section titleSection={'Blogs'} />
-        <ButtonClick onClick={handleLogout} color1="red">
+        <ButtonClick onClick={handleLogout} type="red-button">
           Logout
         </ButtonClick>
       </div>
 
-      <h2 className="text-lg">
+      <h2 className="text-lg my-2">
         <span className="font-bold">{user.name}</span> logged in
       </h2>
 
@@ -36,6 +40,7 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
         buttonLabelToOpen={'New blog'}
         buttonLabelToClose={'Close'}
         ref={blogAddRef}
+        type={'green-button'}
       >
         <BlogForm
           blogAddRef={blogAddRef}
@@ -48,7 +53,7 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
 
       <div className="mt-5">
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
         ))}
       </div>
     </div>

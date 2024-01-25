@@ -11,3 +11,36 @@
   border-color: rgb(26, 144, 26);
   background-color: rgb(26, 144, 26);
 }
+
+.red-button {
+  border-color: red;
+  color: white;
+  background-color: red;
+}
+
+.red-button:hover {
+  background-color: white;
+  color: red;
+}
+
+.blue-button {
+  border-color: rgb(47, 47, 240, 0.84);
+  color: white;
+  background-color: rgba(47, 47, 240, 0.84);
+}
+
+.blue-button:hover {
+  background-color: white;
+  color: rgb(47, 47, 240, 0.84);
+}
+
+.green-button {
+  border-color: green;
+  color: white;
+  background-color: green;
+}
+
+.green-button:hover {
+  background-color: white;
+  color: green;
+}

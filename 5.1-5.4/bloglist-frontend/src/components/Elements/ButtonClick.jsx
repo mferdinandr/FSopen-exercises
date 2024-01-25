@@ -1,9 +1,9 @@
-const ButtonClick = ({ children, onClick, color1, color2 }) => {
+const ButtonClick = ({ children, onClick, type }) => {
   return (
     <button
       type="submit"
       onClick={onClick}
-      className={`mt-2 border-2 rounded-xl border-${color1}-600 text-white bg-${color1}-400 px-4 py-1 hover:bg-white hover:text-${color1}-600`}
+      className={`mt-2 border-2 rounded-xl px-3 py-0.5 ${type}`}
     >
       {children}
     </button>

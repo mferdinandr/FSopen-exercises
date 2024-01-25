@@ -2,7 +2,7 @@ import ButtonClick from './ButtonClick';
 import { useImperativeHandle, useState, forwardRef } from 'react';
 
 const Togglable = forwardRef((props, refs) => {
-  const { buttonLabelToOpen, buttonLabelToClose, children } = props;
+  const { buttonLabelToOpen, buttonLabelToClose, children, type } = props;
   const [visible, setVisible] = useState(false);
 
   const hideWhenVisible = { display: visible ? 'none' : '' };
@@ -19,13 +19,13 @@ const Togglable = forwardRef((props, refs) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <ButtonClick onClick={toggleVisibility} color1="blue">
+        <ButtonClick onClick={toggleVisibility} type={type}>
           {buttonLabelToOpen}
         </ButtonClick>
       </div>
       <div style={showWhenVisible}>
         {children}
-        <ButtonClick onClick={toggleVisibility} color1="red">
+        <ButtonClick onClick={toggleVisibility} type="red-button">
           {buttonLabelToClose}
         </ButtonClick>
       </div>
