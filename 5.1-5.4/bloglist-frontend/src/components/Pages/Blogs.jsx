@@ -53,7 +53,13 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
 
       <div className="mt-5">
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            setBlogs={setBlogs}
+            setMessage={setMessage}
+            setTypeMessage={setTypeMessage}
+          />
         ))}
       </div>
     </div>

@@ -44,3 +44,14 @@
   background-color: white;
   color: green;
 }
+
+.orange-button {
+  border-color: orange;
+  color: white;
+  background-color: orange;
+}
+
+.orange-button:hover {
+  background-color: white;
+  color: orange;
+}

@@ -34,7 +34,7 @@ const BlogForm = ({
     setTypeMessage('success');
     setTimeout(() => {
       setMessage(null);
-    }, 5000);
+    }, 3000);
 
     setTitle('');
     setAuhtor('');
