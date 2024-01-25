@@ -2,6 +2,7 @@ import Togglable from '../Elements/Togglable';
 import { AiFillLike } from 'react-icons/ai';
 import blogService from '../../services/blogs';
 import ButtonClick from '../Elements/ButtonClick';
+import PropTypes from 'prop-types';
 
 const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
   const handleAddLike = async () => {
@@ -21,17 +22,25 @@ const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
 
   const handleDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id);
+      try {
+        await blogService.remove(blog.id);
 
-      let blogs = await blogService.getAll();
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
+        let blogs = await blogService.getAll();
+        blogs.sort((a, b) => b.likes - a.likes);
+        setBlogs(blogs);
 
-      setMessage(`${blog.title}, by ${blog.author} removed`);
-      setTypeMessage('success');
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
+        setMessage(`${blog.title}, by ${blog.author} removed`);
+        setTypeMessage('success');
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } catch {
+        setMessage('Only who created this blog can deleted');
+        setTypeMessage('error');
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      }
     }
   };
 
@@ -62,6 +71,13 @@ const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
       </Togglable>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default Blog;

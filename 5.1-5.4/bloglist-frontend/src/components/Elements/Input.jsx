@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Input = ({ type, value, name, onChange, label }) => {
   return (
     <div className="py-2 px-1 flex flex-col">
@@ -12,6 +14,14 @@ const Input = ({ type, value, name, onChange, label }) => {
       />
     </div>
   );
+};
+
+Input.propTypes = {
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default Input;

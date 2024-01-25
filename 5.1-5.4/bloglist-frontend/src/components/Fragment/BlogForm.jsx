@@ -1,9 +1,9 @@
 import Section from '../Elements/Section';
 import blogService from '../../services/blogs';
-import loginService from '../../services/login';
 import Input from '../Elements/Input';
 import { useState } from 'react';
 import ButtonForm from '../Elements/ButtonForm';
+import PropTypes from 'prop-types';
 
 const BlogForm = ({
   blogs,
@@ -71,6 +71,14 @@ const BlogForm = ({
       </Section>
     </div>
   );
+};
+
+BlogForm.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  blogAddRef: PropTypes.object.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default BlogForm;

@@ -1,4 +1,5 @@
 import ButtonClick from './ButtonClick';
+import PropTypes from 'prop-types';
 import { useImperativeHandle, useState, forwardRef } from 'react';
 
 const Togglable = forwardRef((props, refs) => {
@@ -32,5 +33,12 @@ const Togglable = forwardRef((props, refs) => {
     </div>
   );
 });
+
+Togglable.displayName = 'Togglable';
+
+Togglable.propTypes = {
+  buttonLabelToOpen: PropTypes.string.isRequired,
+  buttonLabelToClose: PropTypes.string.isRequired,
+};
 
 export default Togglable;

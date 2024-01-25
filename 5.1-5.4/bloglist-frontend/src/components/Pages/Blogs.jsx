@@ -5,7 +5,8 @@ import Blog from '../Fragment/Blog';
 import blogService from '../../services/blogs';
 import { useState, useEffect } from 'react';
 import BlogForm from '../Fragment/BlogForm';
-import blogs from '../../services/blogs';
+
+import PropTypes from 'prop-types';
 
 const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
   const [blogs, setBlogs] = useState([]);
@@ -64,6 +65,14 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
       </div>
     </div>
   );
+};
+
+Blogs.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  blogAddRef: PropTypes.object.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default Blogs;

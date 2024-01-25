@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const ButtonClick = ({ children, onClick, type }) => {
   return (
     <button
@@ -8,6 +10,11 @@ const ButtonClick = ({ children, onClick, type }) => {
       {children}
     </button>
   );
+};
+
+ButtonClick.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default ButtonClick;

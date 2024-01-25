@@ -4,6 +4,7 @@ import loginService from '../../services/login';
 import Input from '../Elements/Input';
 import { useState } from 'react';
 import ButtonForm from '../Elements/ButtonForm';
+import PropTypes from 'prop-types';
 
 const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
   const [username, setUsername] = useState('');
@@ -62,6 +63,12 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
       </Section>
     </div>
   );
+};
+
+LoginForm.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
