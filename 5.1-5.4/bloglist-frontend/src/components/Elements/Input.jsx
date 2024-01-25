@@ -7,7 +7,8 @@ const Input = ({ type, value, name, onChange, label }) => {
         value={value}
         name={name}
         onChange={onChange}
-        className="border-2 border-black py-2 px-3 rounded-md font-normal text-sm sm:font-medium"
+        className="border-2 border-black py-2 px-3 rounded-md font-normal text-sm sm:font-medium "
+        required
       />
     </div>
   );
