@@ -46,13 +46,15 @@ const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
 
   return (
     <div className="border border-black my-2 px-3 py-2 rounded-lg">
-      <p className="font-bold">{blog.title}</p>
+      <p className="font-bold blogTitle">
+        {blog.title}, by {blog.author}
+      </p>
       <Togglable
         buttonLabelToOpen="View"
         buttonLabelToClose="Hide"
         type={'blue-button'}
       >
-        <div>
+        <div className="blogAll">
           <div>
             <a href={blog.url}> {blog.url}</a>
           </div>
