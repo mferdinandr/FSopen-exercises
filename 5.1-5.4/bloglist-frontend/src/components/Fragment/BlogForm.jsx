@@ -47,6 +47,7 @@ const BlogForm = ({
         <form onSubmit={handleAddBlog} className="w-full my-2">
           <Input
             type="text"
+            id={'#title'}
             value={title}
             name="Title"
             label="Title"
@@ -54,6 +55,7 @@ const BlogForm = ({
           ></Input>
           <Input
             type="text"
+            id={'#author'}
             value={author}
             name="Author"
             label="Author"
@@ -61,6 +63,7 @@ const BlogForm = ({
           ></Input>
           <Input
             type="text"
+            id={'#url'}
             value={url}
             name="URL"
             label="URL"

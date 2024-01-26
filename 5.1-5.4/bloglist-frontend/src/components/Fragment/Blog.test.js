@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Blog from './Blog';
 import userEvent from '@testing-library/user-event';
@@ -50,3 +50,29 @@ test('when button clicked, url and likes are shwon', () => {
   expect(blogAll).toHaveTextContent(`${blog.url}`);
   expect(blogAll).toHaveTextContent(`${blog.url}`);
 });
+
+// SKIP 5.15
+
+// test('two clicks on like button will increae two like', async () => {
+//   const mockHandler = jest.fn();
+
+//   const component = render(
+//     <Blog
+//       blog={blog}
+//       setBlogs={setBlogs}
+//       setMessage={setMessage}
+//       setTypeMessage={setTypeMessage}
+//     ></Blog>
+//   );
+
+//   const buttonView = component.getByText('View');
+//   userEvent.click(buttonView);
+
+//   const blogAll = component.container.querySelector('.blogAll');
+//   expect(blogAll).toBeVisible;
+
+//   const buttonLike = component.container.querySelector('likeButton');
+//   userEvent.click(buttonLike);
+//   userEvent.click(buttonLike);
+//   expect(mockHandler.mock.calls).toHaveLength(2);
+// });

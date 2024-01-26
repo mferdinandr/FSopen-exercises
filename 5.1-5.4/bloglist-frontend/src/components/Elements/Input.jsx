@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const Input = ({ type, value, name, onChange, label }) => {
+const Input = ({ type, value, name, onChange, label, id }) => {
   return (
     <div className="py-2 px-1 flex flex-col">
       <label className="font-bold">{label}</label>
@@ -8,6 +8,7 @@ const Input = ({ type, value, name, onChange, label }) => {
         type={type}
         value={value}
         name={name}
+        id={id}
         onChange={onChange}
         className="border-2 border-black py-2 px-3 rounded-md font-normal text-sm sm:font-medium "
         required

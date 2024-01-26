@@ -61,7 +61,8 @@ const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
           <div className="flex items-center py-1" onClick={handleAddLike}>
             <p>Likes : {blog.likes}</p>
             <AiFillLike
-              className="text-red-500  ml-10 hover:cursor-pointer active:scale-125 active:text-red-600"
+              className="text-red-500  ml-10 hover:cursor-pointer active:scale-125 active:text-red-600 likeButton"
+              data-testid="likeButton"
               size={25}
             />
           </div>
