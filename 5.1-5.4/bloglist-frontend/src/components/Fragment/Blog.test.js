@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Blog from './Blog';
+import userEvent from '@testing-library/user-event';
 
 const blog = {
   title: 'Component testing is done with react-testing-library',
@@ -29,4 +30,23 @@ test('default blog view, shows only title and author', () => {
   expect(blogTitle).toBeVisible();
 
   expect(blogTitle).toHaveTextContent(`${blog.title}, by ${blog.author}`);
+});
+
+test('when button clicked, url and likes are shwon', () => {
+  const component = render(
+    <Blog
+      blog={blog}
+      setBlogs={setBlogs}
+      setMessage={setMessage}
+      setTypeMessage={setTypeMessage}
+    ></Blog>
+  );
+
+  const buttonView = component.getByText('View');
+  userEvent.click(buttonView);
+
+  const blogAll = component.container.querySelector('.blogAll');
+  expect(blogAll).toBeVisible;
+  expect(blogAll).toHaveTextContent(`${blog.url}`);
+  expect(blogAll).toHaveTextContent(`${blog.url}`);
 });
