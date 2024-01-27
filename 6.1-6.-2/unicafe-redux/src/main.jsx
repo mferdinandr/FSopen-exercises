@@ -12,16 +12,19 @@ const App = () => {
       type: 'GOOD',
     });
   };
+  
   const ok = () => {
     store.dispatch({
       type: 'OK',
     });
   };
+
   const bad = () => {
     store.dispatch({
       type: 'BAD',
     });
   };
+  
   const reset = () => {
     store.dispatch({
       type: 'ZERO',
