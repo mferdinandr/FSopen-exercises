@@ -12,14 +12,14 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault();
     const content = event.target.note.value;
-    event.target.note.value = ''
+    event.target.note.value = '';
     dispatch(createNote(content));
   };
 
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map((anecdote) => (
+      {anecdotes.sort(anecdotes.votes).map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>

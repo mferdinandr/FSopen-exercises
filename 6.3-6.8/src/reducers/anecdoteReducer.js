@@ -21,12 +21,14 @@ const initialState = anecdotesAtStart.map(asObject);
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'VOTE':
-      return state.map((anec) =>
+    case 'VOTE': {
+      const sortedState = state.map((anec) =>
         anec.id === action.payload.id
           ? { ...anec, votes: anec.votes + 1 }
           : anec
       );
+      return sortedState.sort((a, b) => b.votes - a.votes);
+    }
 
     case 'ADD_NOTE':
       return [...state, action.payload];
