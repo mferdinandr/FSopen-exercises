@@ -49,4 +49,11 @@ export const createNote = (content) => {
   };
 };
 
+export const voteNote = (id) => {
+  return {
+    type: 'VOTE',
+    payload: { id },
+  };
+};
+
 export default reducer;
