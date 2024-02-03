@@ -6,20 +6,15 @@ import axios from 'axios';
 import { getAnecdotes, updateAnecdote } from './services/anecdote-service';
 // import { useNotifyDispatch } from './components/Notification';
 import { useReducer } from 'react';
+import {
+  useNotificationDispatch,
+  useNotificationValue,
+} from './NotificationContext';
 
 const App = () => {
   const queryClient = useQueryClient();
-
-  const notifyReducer = (state, action) => {
-    switch (action.type) {
-      case 'SHOW':
-        return action.payload;
-      default:
-        return '';
-    }
-  };
-
-  const [notify, notifyDispatch] = useReducer(notifyReducer, '');
+  const notification = useNotificationValue();
+  const dispatch = useNotificationDispatch();
 
   const result = useQuery({
     queryKey: ['anecdotes'],
@@ -36,12 +31,12 @@ const App = () => {
 
   const handleVote = (anecdote) => {
     updateAnecdoteMutation.mutate(anecdote.id);
-    notifyDispatch({
+    dispatch({
       type: 'SHOW',
       payload: `anecdote '${anecdote.content}' voted`,
     });
     setTimeout(() => {
-      notifyDispatch({ type: 'MUTE' });
+      dispatch({ type: 'MUTE' });
     }, 5000);
   };
 
@@ -59,7 +54,7 @@ const App = () => {
     <div>
       <h3>Anecdote app</h3>
 
-      <Notification notification={notify}></Notification>
+      <Notification notification={notification}></Notification>
       <AnecdoteForm />
 
       {anecdotes.map((anecdote) => (
