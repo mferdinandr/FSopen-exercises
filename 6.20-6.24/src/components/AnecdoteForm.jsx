@@ -1,8 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createAnecdotes } from '../services/anecdote-service';
+import {
+  useNotificationDispatch,
+  useNotificationValue,
+} from '../NotificationContext';
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient();
+  const notification = useNotificationValue();
+  const dispatch = useNotificationDispatch();
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdotes,
@@ -16,7 +22,26 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.anecdote.value = '';
-    newAnecdoteMutation.mutate(content);
+    newAnecdoteMutation.mutate(content, {
+      onError: () => {
+        dispatch({
+          type: 'SHOW',
+          payload: `an error occurred while creating '${content}', use at least 5 characters for`,
+        });
+        setTimeout(() => {
+          dispatch({ type: 'MUTE' });
+        }, 5000);
+      },
+      onSuccess: () => {
+        dispatch({
+          type: 'SHOW',
+          payload: `'${content}' created`,
+        });
+        setTimeout(() => {
+          dispatch({ type: 'MUTE' });
+        }, 5000);
+      },
+    });
   };
 
   return (
