@@ -82,6 +82,16 @@ const About = () => (
   </div>
 );
 
+const Notification = ({ notify }) => {
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1,
+  };
+
+  return <div>a new anecdote '{notify}' created!</div>;
+};
+
 const Footer = () => (
   <div>
     Anecdote app for <a href="https://fullstackopen.com/">Full Stack Open</a>.
@@ -98,14 +108,18 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     props.addNew({
       content,
       author,
       info,
       votes: 0,
     });
+    navigate('/');
   };
 
   return (
@@ -170,6 +184,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
+    setNotification(anecdote.content);
+    setTimeout(() => {
+      setNotification('');
+    }, 5000);
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -189,7 +207,9 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      {notification.length > 0 && <Notification notify={notification} />}
       <Routes>
+        <Route path="*" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
         <Route
