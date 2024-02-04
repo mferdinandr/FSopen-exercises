@@ -8,6 +8,7 @@ import {
   useNavigate,
   useMatch,
 } from 'react-router-dom';
+import { useField } from './hooks';
 
 const Menu = () => {
   const padding = {
@@ -104,9 +105,9 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
-  const [info, setInfo] = useState('');
+  const content = useField('text');
+  const author = useField('text');
+  const info = useField('text');
 
   const navigate = useNavigate();
 
@@ -114,9 +115,9 @@ const CreateNew = (props) => {
     e.preventDefault();
 
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     navigate('/');
@@ -128,27 +129,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <input name="content" {...content} />
         </div>
         <div>
           author
-          <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <input name="author" {...author} />
         </div>
         <div>
           url for more info
-          <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
+          <input name="info" {...info} />
         </div>
         <button>create</button>
       </form>
@@ -207,7 +196,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      {notification.length > 0 && <Notification notify={notification} />}
+      {notification && <Notification notify={notification} />}
       <Routes>
         <Route path="*" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
@@ -220,7 +209,6 @@ const App = () => {
       </Routes>
       <Footer />
     </div>
-    //   <About />
   );
 };
 
