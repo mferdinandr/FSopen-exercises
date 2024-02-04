@@ -6,6 +6,7 @@ import {
   Link,
   Navigate,
   useNavigate,
+  useMatch,
 } from 'react-router-dom';
 
 const Menu = () => {
@@ -14,10 +15,9 @@ const Menu = () => {
   };
   return (
     <div>
-      <a href="#" style={padding}>
+      <Link to={'/anecdotes'} style={padding}>
         anecdotes
-      </a>
-
+      </Link>
       <Link to={'/create'} style={padding}>
         create new
       </Link>
@@ -29,35 +29,34 @@ const Menu = () => {
   );
 };
 
-const AnecdoteList = ({ anecdotes }) => (
-  <div>
-    <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map((anecdote) => (
-        <li key={anecdote.id}>{anecdote.content}</li>
-      ))}
-    </ul>
-  </div>
-);
+const AnecdoteList = ({ anecdotes }) => {
+  const padding = {
+    paddingRight: 5,
+  };
 
-const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
+  return (
+    <div>
+      <h2>Anecdotes</h2>
+      <ul>
+        {anecdotes.map((anecdote) => (
+          <li key={anecdote.id}>
+            <Link to={`/anecdotes/${anecdote.id}`} style={padding}>
+              {anecdote.content}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-    <em>
-      An anecdote is a brief, revealing account of an individual person or an
-      incident. Occasionally humorous, anecdotes differ from jokes because their
-      primary purpose is not simply to provoke laughter but to reveal a truth
-      more general than the brief tale itself, such as to characterize a person
-      by delineating a specific quirk or trait, to communicate an abstract idea
-      about a person, place, or thing through the concrete details of a short
-      narrative. An anecdote is "a story with a point."
-    </em>
+const About = ({ anecdote }) => (
+  <div>
+    <h2>{anecdote.content}</h2>
+    <p>has {anecdote.votes} votes</p>
 
     <p>
-      Software engineering is full of excellent anecdotes, at this app you can
-      find the best and add more.
+      for more info see <a href={anecdote.info}>{anecdote.info}</a>
     </p>
   </div>
 );
@@ -142,6 +141,11 @@ const App = () => {
 
   const [notification, setNotification] = useState('');
 
+  const match = useMatch('/anecdotes/:id');
+  const anecdote = match
+    ? anecdotes.find((anec) => anec.id === Number(match.params.id))
+    : null;
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
@@ -161,22 +165,21 @@ const App = () => {
   };
 
   return (
-    <Router>
+    <div>
       <h1>Software anecdotes</h1>
       <Menu />
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route
+          path="/anecdotes"
+          element={<AnecdoteList anecdotes={anecdotes} />}
+        />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/anecdotes/:id" element={<About anecdote={anecdote} />} />
       </Routes>
       <Footer />
-    </Router>
-    // <div>
-    //   <Menu />
-    //   <AnecdoteList anecdotes={anecdotes} />
+    </div>
     //   <About />
-    //   <CreateNew addNew={addNew} />
-    //   <Footer />
-    // </div>
   );
 };
 
