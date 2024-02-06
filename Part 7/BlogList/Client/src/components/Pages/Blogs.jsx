@@ -2,23 +2,33 @@ import Section from '../Elements/Section';
 import ButtonClick from '../Elements/ButtonClick';
 import Togglable from '../Elements/Togglable';
 import Blog from '../Fragment/Blog';
-import blogService from '../../services/blogs';
 import { useState, useEffect } from 'react';
 import BlogForm from '../Fragment/BlogForm';
+import blogService from '../../services/blogs';
 
+import axios, { all } from 'axios';
 import PropTypes from 'prop-types';
 import { useNotifcationDispatch } from '../../NotificationContext';
+import { useQuery } from '@tanstack/react-query';
 
 const Blogs = ({ setUser, user, blogAddRef }) => {
-  const [blogs, setBlogs] = useState([]);
   const notificationDispatch = useNotifcationDispatch();
 
-  useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
-    });
-  }, []);
+  const result = useQuery({
+    queryKey: [''],
+    queryFn: blogService.getAll,
+    refetchOnWindowFocus: false,
+  });
+
+  if (result.isLoading) {
+    return <div>Wait a few minutes...</div>;
+  }
+
+  if (result.isError) {
+    return <div>Error to get data</div>;
+  }
+
+  const blogs = result.data;
 
   const handleLogout = async (event) => {
     event.preventDefault();
@@ -53,13 +63,11 @@ const Blogs = ({ setUser, user, blogAddRef }) => {
         ref={blogAddRef}
         type={'green-button'}
       >
-        <BlogForm blogAddRef={blogAddRef} blogs={blogs} setBlogs={setBlogs} />
+        <BlogForm blogAddRef={blogAddRef} blogs={blogs} />
       </Togglable>
 
       <div className="mt-5">
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
-        ))}
+        {blogs && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
       </div>
     </div>
   );

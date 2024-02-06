@@ -39,4 +39,5 @@ const remove = (id) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, getById, setToken, create, update, remove };
+const blogService = { getAll, getById, setToken, create, update, remove };
+export default blogService;

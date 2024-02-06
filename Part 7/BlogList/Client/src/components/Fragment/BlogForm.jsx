@@ -5,12 +5,22 @@ import { useState } from 'react';
 import ButtonForm from '../Elements/ButtonForm';
 import PropTypes from 'prop-types';
 import { useNotifcationDispatch } from '../../NotificationContext';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
   const [title, setTitle] = useState('');
   const [author, setAuhtor] = useState('');
   const [url, setUrl] = useState('');
   const notificationDispatch = useNotifcationDispatch();
+  const queryClient = useQueryClient();
+
+  const newBlogMutation = useMutation({
+    mutationFn: blogService.create,
+    onSuccess: (newBlog) => {
+      const blogs = queryClient.getQueryData(['']);
+      queryClient.setQueryData([''], blogs.concat(newBlog));
+    },
+  });
 
   const handleAddBlog = (event) => {
     event.preventDefault();
@@ -22,18 +32,18 @@ const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
       url: url,
     };
 
-    blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
+    newBlogMutation.mutate(blogObject, {
+      onSuccess: () => {
+        notificationDispatch({
+          type: 'NOTIFY',
+          payload: `a new blog ${title}, by ${author} added`,
+          color: 'success',
+        });
+        setTimeout(() => {
+          notificationDispatch({ type: 'MUTE' });
+        }, 5000);
+      },
     });
-
-    notificationDispatch({
-      type: 'NOTIFY',
-      payload: `a new blog ${title}, by ${author} added`,
-      color: 'success',
-    });
-    setTimeout(() => {
-      notificationDispatch({ type: 'MUTE' });
-    }, 5000);
 
     setTitle('');
     setAuhtor('');
@@ -76,8 +86,8 @@ const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
 };
 
 BlogForm.propTypes = {
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
+  // blogs: PropTypes.array.isRequired,
+  // setBlogs: PropTypes.func.isRequired,
   blogAddRef: PropTypes.object.isRequired,
 };
 
