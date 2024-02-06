@@ -2,7 +2,7 @@ import Section from '../Elements/Section';
 import ButtonClick from '../Elements/ButtonClick';
 import Togglable from '../Elements/Togglable';
 import Blog from '../Fragment/Blog';
-import { useState, useEffect } from 'react';
+
 import BlogForm from '../Fragment/BlogForm';
 import blogService from '../../services/blogs';
 
@@ -32,7 +32,7 @@ const Blogs = ({ setUser, user, blogAddRef }) => {
   const handleLogout = async (event) => {
     event.preventDefault();
     window.localStorage.clear();
-    setUser(null);
+    setUser({ type: 'REMOVE' });
     notificationDispatch({
       type: 'NOTIFY',
       payload: 'Success to log out',

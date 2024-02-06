@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import blogService from './services/blogs';
 import Notification from './components/Fragment/Notification';
@@ -7,9 +7,11 @@ import LoginForm from './components/Pages/LoginForm';
 
 import './index.css';
 import { useNotifcationValue } from './NotificationContext';
+import { useLoginDispatch, useLoginValue } from './LoginContext';
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const user = useLoginValue();
+  const setUser = useLoginDispatch();
   const notification = useNotifcationValue();
 
   const blogAddRef = useRef(null);
@@ -18,7 +20,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      setUser({ type: 'SET', payload: user });
       blogService.setToken(user.token);
     }
   }, []);
@@ -32,7 +34,7 @@ const App = () => {
         ></Notification>
       )}
       <div>
-        {user === null ? (
+        {user === false ? (
           <LoginForm setUser={setUser}></LoginForm>
         ) : (
           <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />

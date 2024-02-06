@@ -6,10 +6,12 @@ import { useState } from 'react';
 import ButtonForm from '../Elements/ButtonForm';
 import PropTypes from 'prop-types';
 import { useNotifcationDispatch } from '../../NotificationContext';
+import { useLoginDispatch, useLoginValue } from '../../LoginContext';
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const setUser = useLoginDispatch();
   const notificationDispatch = useNotifcationDispatch();
 
   const handleLogin = async (event) => {
@@ -21,6 +23,7 @@ const LoginForm = ({ setUser }) => {
         password: password,
       });
 
+      setUser({ type: 'SET', payload: user });
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
 
       blogService.setToken(user.token);
@@ -74,7 +77,7 @@ const LoginForm = ({ setUser }) => {
 };
 
 LoginForm.propTypes = {
-  setUser: PropTypes.func.isRequired,
+  // setUser: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
