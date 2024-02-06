@@ -5,10 +5,12 @@ import Input from '../Elements/Input';
 import { useState } from 'react';
 import ButtonForm from '../Elements/ButtonForm';
 import PropTypes from 'prop-types';
+import { useNotifcationDispatch } from '../../NotificationContext';
 
-const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
+const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const notificationDispatch = useNotifcationDispatch();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -26,17 +28,23 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
       setUsername('');
       setPassword('');
 
-      setMessage('Success to login');
-      setTypeMessage('success');
+      notificationDispatch({
+        type: 'NOTIFY',
+        payload: 'Success to login',
+        color: 'success',
+      });
       setTimeout(() => {
-        setMessage(null);
-      }, 3000);
+        notificationDispatch({ type: 'MUTE' });
+      }, 5000);
     } catch (exception) {
-      setMessage('Wrong Username or Password');
-      setTypeMessage('error');
+      notificationDispatch({
+        type: 'NOTIFY',
+        payload: 'Wrong Username or Password',
+        color: 'error',
+      });
       setTimeout(() => {
-        setMessage(null);
-      }, 3000);
+        notificationDispatch({ type: 'MUTE' });
+      }, 5000);
     }
   };
 
@@ -67,8 +75,6 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
 
 LoginForm.propTypes = {
   setUser: PropTypes.func.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

@@ -4,17 +4,13 @@ import Input from '../Elements/Input';
 import { useState } from 'react';
 import ButtonForm from '../Elements/ButtonForm';
 import PropTypes from 'prop-types';
+import { useNotifcationDispatch } from '../../NotificationContext';
 
-const BlogForm = ({
-  blogs,
-  setBlogs,
-  blogAddRef,
-  setMessage,
-  setTypeMessage,
-}) => {
+const BlogForm = ({ blogs, setBlogs, blogAddRef }) => {
   const [title, setTitle] = useState('');
   const [author, setAuhtor] = useState('');
   const [url, setUrl] = useState('');
+  const notificationDispatch = useNotifcationDispatch();
 
   const handleAddBlog = (event) => {
     event.preventDefault();
@@ -30,11 +26,14 @@ const BlogForm = ({
       setBlogs(blogs.concat(returnedBlog));
     });
 
-    setMessage(`a new blog ${title}, by ${author} added`);
-    setTypeMessage('success');
+    notificationDispatch({
+      type: 'NOTIFY',
+      payload: `a new blog ${title}, by ${author} added`,
+      color: 'success',
+    });
     setTimeout(() => {
-      setMessage(null);
-    }, 3000);
+      notificationDispatch({ type: 'MUTE' });
+    }, 5000);
 
     setTitle('');
     setAuhtor('');
@@ -80,8 +79,6 @@ BlogForm.propTypes = {
   blogs: PropTypes.array.isRequired,
   setBlogs: PropTypes.func.isRequired,
   blogAddRef: PropTypes.object.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default BlogForm;

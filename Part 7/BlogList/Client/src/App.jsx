@@ -6,11 +6,11 @@ import Blogs from './components/Pages/Blogs';
 import LoginForm from './components/Pages/LoginForm';
 
 import './index.css';
+import { useNotifcationValue } from './NotificationContext';
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [message, setMessage] = useState(null);
-  const [typeMessage, setTypeMessage] = useState('error');
+  const notification = useNotifcationValue();
 
   const blogAddRef = useRef(null);
 
@@ -25,23 +25,17 @@ const App = () => {
 
   return (
     <>
-      <Notification type={typeMessage} message={message}></Notification>
-
+      {notification && (
+        <Notification
+          type={notification[1]}
+          notification={notification[0]}
+        ></Notification>
+      )}
       <div>
         {user === null ? (
-          <LoginForm
-            setUser={setUser}
-            setMessage={setMessage}
-            setTypeMessage={setTypeMessage}
-          ></LoginForm>
+          <LoginForm setUser={setUser}></LoginForm>
         ) : (
-          <Blogs
-            setUser={setUser}
-            user={user}
-            blogAddRef={blogAddRef}
-            setMessage={setMessage}
-            setTypeMessage={setTypeMessage}
-          />
+          <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />
         )}
       </div>
     </>

@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 import BlogForm from '../Fragment/BlogForm';
 
 import PropTypes from 'prop-types';
+import { useNotifcationDispatch } from '../../NotificationContext';
 
-const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
+const Blogs = ({ setUser, user, blogAddRef }) => {
   const [blogs, setBlogs] = useState([]);
+  const notificationDispatch = useNotifcationDispatch();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
@@ -22,6 +24,14 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
     event.preventDefault();
     window.localStorage.clear();
     setUser(null);
+    notificationDispatch({
+      type: 'NOTIFY',
+      payload: 'Success to log out',
+      color: 'success',
+    });
+    setTimeout(() => {
+      notificationDispatch({ type: 'MUTE' });
+    }, 5000);
   };
 
   return (
@@ -43,24 +53,12 @@ const Blogs = ({ setUser, user, blogAddRef, setMessage, setTypeMessage }) => {
         ref={blogAddRef}
         type={'green-button'}
       >
-        <BlogForm
-          blogAddRef={blogAddRef}
-          blogs={blogs}
-          setBlogs={setBlogs}
-          setMessage={setMessage}
-          setTypeMessage={setTypeMessage}
-        />
+        <BlogForm blogAddRef={blogAddRef} blogs={blogs} setBlogs={setBlogs} />
       </Togglable>
 
       <div className="mt-5">
         {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            setBlogs={setBlogs}
-            setMessage={setMessage}
-            setTypeMessage={setTypeMessage}
-          />
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
         ))}
       </div>
     </div>
@@ -71,8 +69,6 @@ Blogs.propTypes = {
   setUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   blogAddRef: PropTypes.object.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default Blogs;

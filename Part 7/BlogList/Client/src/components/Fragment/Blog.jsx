@@ -3,8 +3,11 @@ import { AiFillLike } from 'react-icons/ai';
 import blogService from '../../services/blogs';
 import ButtonClick from '../Elements/ButtonClick';
 import PropTypes from 'prop-types';
+import { useNotifcationDispatch } from '../../NotificationContext';
 
-const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
+const Blog = ({ blog, setBlogs }) => {
+  const notificationDispatch = useNotifcationDispatch();
+
   const handleAddLike = async () => {
     blogService.update(blog.id, {
       title: blog.title,
@@ -29,16 +32,22 @@ const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
         blogs.sort((a, b) => b.likes - a.likes);
         setBlogs(blogs);
 
-        setMessage(`${blog.title}, by ${blog.author} removed`);
-        setTypeMessage('success');
+        notificationDispatch({
+          type: 'NOTIFY',
+          payload: `${blog.title}, by ${blog.author} removed`,
+          color: 'success',
+        });
         setTimeout(() => {
-          setMessage(null);
-        }, 3000);
+          notificationDispatch({ type: 'MUTE' });
+        }, 5000);
       } catch {
-        setMessage('Only who created this blog can deleted');
-        setTypeMessage('error');
+        notificationDispatch({
+          type: 'NOTIFY',
+          payload: 'Only who created this blog can deleted',
+          color: 'error',
+        });
         setTimeout(() => {
-          setMessage(null);
+          notificationDispatch({ type: 'MUTE' });
         }, 5000);
       }
     }
@@ -79,8 +88,6 @@ const Blog = ({ blog, setBlogs, setMessage, setTypeMessage }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setTypeMessage: PropTypes.func.isRequired,
 };
 
 export default Blog;
