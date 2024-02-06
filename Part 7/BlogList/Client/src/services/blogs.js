@@ -26,9 +26,14 @@ const create = async (newBlog) => {
   return response.data;
 };
 
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject);
-  return request.then((response) => response.data);
+const updateLike = async (id) => {
+  const blogToChange = await axios.get(`${baseUrl}/${id}`);
+  const changedBlog = {
+    ...blogToChange.data,
+    likes: blogToChange.data.likes + 1,
+  };
+  const response = await axios.put(`${baseUrl}/${id}`, changedBlog);
+  return response.data;
 };
 
 const remove = (id) => {
@@ -39,5 +44,5 @@ const remove = (id) => {
   return request.then((response) => response.data);
 };
 
-const blogService = { getAll, getById, setToken, create, update, remove };
+const blogService = { getAll, getById, setToken, create, updateLike, remove };
 export default blogService;

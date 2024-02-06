@@ -4,52 +4,51 @@ import blogService from '../../services/blogs';
 import ButtonClick from '../Elements/ButtonClick';
 import PropTypes from 'prop-types';
 import { useNotifcationDispatch } from '../../NotificationContext';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog }) => {
   const notificationDispatch = useNotifcationDispatch();
+  const queryClient = useQueryClient();
 
-  const handleAddLike = async () => {
-    blogService.update(blog.id, {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-    });
+  const updateBlogMutation = useMutation({
+    mutationFn: blogService.updateLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [''] });
+    },
+  });
 
-    await blogService.getById(blog.id).then((data) => {
-      setBlogs((prev) =>
-        prev.map((blog) => (blog.id === data.id ? data : blog))
-      );
-    });
+  const deleteBlogMutation = useMutation({
+    mutationFn: blogService.remove,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [''] });
+      notificationDispatch({
+        type: 'NOTIFY',
+        payload: `${blog.title}, by ${blog.author} removed`,
+        color: 'success',
+      });
+      setTimeout(() => {
+        notificationDispatch({ type: 'MUTE' });
+      }, 5000);
+    },
+    onError: () => {
+      notificationDispatch({
+        type: 'NOTIFY',
+        payload: 'Only who created this blog can deleted',
+        color: 'error',
+      });
+      setTimeout(() => {
+        notificationDispatch({ type: 'MUTE' });
+      }, 5000);
+    },
+  });
+
+  const handleAddLike = () => {
+    updateBlogMutation.mutate(blog.id);
   };
 
   const handleDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      try {
-        await blogService.remove(blog.id);
-
-        let blogs = await blogService.getAll();
-        blogs.sort((a, b) => b.likes - a.likes);
-        setBlogs(blogs);
-
-        notificationDispatch({
-          type: 'NOTIFY',
-          payload: `${blog.title}, by ${blog.author} removed`,
-          color: 'success',
-        });
-        setTimeout(() => {
-          notificationDispatch({ type: 'MUTE' });
-        }, 5000);
-      } catch {
-        notificationDispatch({
-          type: 'NOTIFY',
-          payload: 'Only who created this blog can deleted',
-          color: 'error',
-        });
-        setTimeout(() => {
-          notificationDispatch({ type: 'MUTE' });
-        }, 5000);
-      }
+      deleteBlogMutation.mutate(blog.id);
     }
   };
 
