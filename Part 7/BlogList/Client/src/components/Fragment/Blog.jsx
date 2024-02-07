@@ -92,28 +92,9 @@ export const BlogDetail = ({ users }) => {
               </ButtonClick>
             </div>
           </div>
-          {/* {findUser[0].map((blog) => (
-          <li key={blog.id} className="p-1 list-disc">
-            {blog.title}
-          </li>
-        ))} */}
         </div>
       </div>
     );
-
-    // return (
-    //   <div className="mx-7 sm:mx-20 my-5">
-    //     <Header title={'User Blogs'} />
-    //     <div className="pt-2 font-bold">{findUser[0].name}</div>
-    //     <ul className="ml-6">
-    //       {findUser[0].blogs.map((blog) => (
-    //         <li key={blog.id} className="p-1 list-disc">
-    //           {blog.title}
-    //         </li>
-    //       ))}
-    //     </ul>
-    //   </div>
-    // );
   }
 };
 
@@ -123,36 +104,12 @@ const Blog = ({ blog }) => {
       <Link to={`/blogs/${blog.id}`} className="font-bold blogTitle">
         {blog.title}, by {blog.author}
       </Link>
-      {/* <Togglable
-        buttonLabelToOpen="View"
-        buttonLabelToClose="Hide"
-        type={'blue-button'}
-      >
-        <div className="blogAll">
-          <div>
-            <a href={blog.url}> {blog.url}</a>
-          </div>
-          <div className="flex items-center py-1" onClick={handleAddLike}>
-            <p>Likes : {blog.likes}</p>
-            <AiFillLike
-              className="text-red-500  ml-10 hover:cursor-pointer active:scale-125 active:text-red-600 likeButton"
-              data-testid="likeButton"
-              size={25}
-            />
-          </div>
-          <div>Author : {blog.author}</div>
-          <ButtonClick type={'red-button'} onClick={handleDelete}>
-            Delete
-          </ButtonClick>
-        </div>
-      </Togglable> */}
     </div>
   );
 };
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  // setBlogs: PropTypes.func.isRequired,
 };
 
 export default Blog;
