@@ -8,6 +8,8 @@ import LoginForm from './components/Pages/LoginForm';
 import './index.css';
 import { useNotifcationValue } from './NotificationContext';
 import { useLoginDispatch, useLoginValue } from './LoginContext';
+import { Route, Routes } from 'react-router-dom';
+import Users from './components/Pages/Users';
 
 const App = () => {
   const user = useLoginValue();
@@ -33,13 +35,23 @@ const App = () => {
           notification={notification[0]}
         ></Notification>
       )}
-      <div>
+
+      <Routes>
         {user === false ? (
-          <LoginForm setUser={setUser}></LoginForm>
+          <Route
+            path="/login"
+            element={<LoginForm setUser={setUser}></LoginForm>}
+          />
         ) : (
-          <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />
+          <Route
+            path="/blogs"
+            element={
+              <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />
+            }
+          />
         )}
-      </div>
+        {user && <Route path="/users" element={<Users />} />}
+      </Routes>
     </>
   );
 };

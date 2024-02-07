@@ -9,10 +9,10 @@ import blogService from '../../services/blogs';
 import PropTypes from 'prop-types';
 import { useNotifcationDispatch } from '../../NotificationContext';
 import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
+import Header from '../Fragment/Header';
 
-const Blogs = ({ setUser, user, blogAddRef }) => {
-  const notificationDispatch = useNotifcationDispatch();
-
+const Blogs = ({ blogAddRef }) => {
   const result = useQuery({
     queryKey: [''],
     queryFn: blogService.getAll,
@@ -27,35 +27,11 @@ const Blogs = ({ setUser, user, blogAddRef }) => {
     return <div>Error to get data</div>;
   }
 
-  const blogs = result.data;
-
-  const handleLogout = async (event) => {
-    event.preventDefault();
-    window.localStorage.clear();
-    setUser({ type: 'REMOVE' });
-    notificationDispatch({
-      type: 'NOTIFY',
-      payload: 'Success to log out',
-      color: 'success',
-    });
-    setTimeout(() => {
-      notificationDispatch({ type: 'MUTE' });
-    }, 5000);
-  };
+  const blogs = result.data.sort((a, b) => b.likes - a.likes);
 
   return (
     <div className="mx-7 sm:mx-20 my-5">
-      <div className="flex justify-between">
-        <Section titleSection={'Blogs'} />
-        <ButtonClick onClick={handleLogout} type="red-button">
-          Logout
-        </ButtonClick>
-      </div>
-
-      <h2 className="text-lg my-2">
-        <span className="font-bold">{user.name}</span> logged in
-      </h2>
-
+      <Header />
       <Togglable
         buttonLabelToOpen={'New blog'}
         buttonLabelToClose={'Close'}
@@ -64,6 +40,10 @@ const Blogs = ({ setUser, user, blogAddRef }) => {
       >
         <BlogForm blogAddRef={blogAddRef} blogs={blogs} />
       </Togglable>
+
+      <Link to={'/users'}>
+        <ButtonClick type="blue-button">Show Users</ButtonClick>
+      </Link>
 
       <div className="mt-5">
         {blogs && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}

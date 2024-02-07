@@ -7,12 +7,14 @@ import ButtonForm from '../Elements/ButtonForm';
 import PropTypes from 'prop-types';
 import { useNotifcationDispatch } from '../../NotificationContext';
 import { useLoginDispatch, useLoginValue } from '../../LoginContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const setUser = useLoginDispatch();
   const notificationDispatch = useNotifcationDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -24,6 +26,7 @@ const LoginForm = () => {
       });
 
       setUser({ type: 'SET', payload: user });
+      navigate('/blogs');
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
 
       blogService.setToken(user.token);
@@ -69,6 +72,7 @@ const LoginForm = () => {
             label="Password"
             onChange={({ target }) => setPassword(target.value)}
           ></Input>
+
           <ButtonForm>Login</ButtonForm>
         </form>
       </Section>

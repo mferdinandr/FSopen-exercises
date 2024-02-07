@@ -12,6 +12,11 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
+const getAllUsers = () => {
+  const request = axios.get('/api/users');
+  return request.then((response) => response.data);
+};
+
 const getById = (id) => {
   const request = axios.get(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
@@ -44,5 +49,13 @@ const remove = (id) => {
   return request.then((response) => response.data);
 };
 
-const blogService = { getAll, getById, setToken, create, updateLike, remove };
+const blogService = {
+  getAll,
+  getAllUsers,
+  getById,
+  setToken,
+  create,
+  updateLike,
+  remove,
+};
 export default blogService;
