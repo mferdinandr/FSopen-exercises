@@ -53,8 +53,6 @@ const Blogs = ({ blogAddRef }) => {
 };
 
 Blogs.propTypes = {
-  setUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
   blogAddRef: PropTypes.object.isRequired,
 };
 

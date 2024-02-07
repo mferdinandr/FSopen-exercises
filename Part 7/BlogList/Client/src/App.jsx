@@ -12,6 +12,7 @@ import { Route, Routes } from 'react-router-dom';
 import Users from './components/Pages/Users';
 import { useQuery } from '@tanstack/react-query';
 import { UserDetail } from './components/Fragment/User';
+import { BlogDetail } from './components/Fragment/Blog';
 
 const App = () => {
   const user = useLoginValue();
@@ -20,12 +21,19 @@ const App = () => {
 
   const blogAddRef = useRef(null);
 
-  const result = useQuery({
+  const resultBlogs = useQuery({
     queryKey: [''],
     queryFn: blogService.getAllUsers,
     refetchOnWindowFocus: false,
   });
-  const blogs = result.data;
+  const blogs = resultBlogs.data;
+
+  const resultUsers = useQuery({
+    queryKey: [''],
+    queryFn: blogService.getAllUsers,
+    refetchOnWindowFocus: false,
+  });
+  const users = resultUsers.data;
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
@@ -59,10 +67,14 @@ const App = () => {
             }
           />
         )}
-        {user && <Route path="/users" element={<Users />} />}
-        {user && (
-          <Route path="/users/:id" element={<UserDetail blogs={blogs} />} />
-        )}
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<UserDetail blogs={blogs} />} />
+        <Route path="/blogs" element={<Blogs blogAddRef={blogAddRef} />} />
+        <Route path="/blogs/:id" element={<BlogDetail users={users} />} />
+        {/* {user && (
+          <Route path="/blogs/:id" element
+          ={<UserDetail blogs={blogs} />} />
+        )} */}
       </Routes>
     </>
   );
