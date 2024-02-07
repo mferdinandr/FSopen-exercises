@@ -15,7 +15,7 @@ const Users = () => {
 
   return (
     <div className="mx-7 sm:mx-20 my-5">
-      <Header />
+      <Header title={'Users'} />
       <Link to={'/blogs'}>
         <ButtonClick type="blue-button">Show Blogs</ButtonClick>
       </Link>

@@ -31,7 +31,7 @@ const Blogs = ({ blogAddRef }) => {
 
   return (
     <div className="mx-7 sm:mx-20 my-5">
-      <Header />
+      <Header title={'Blogs'} />
       <Togglable
         buttonLabelToOpen={'New blog'}
         buttonLabelToClose={'Close'}

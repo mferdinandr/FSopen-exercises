@@ -10,6 +10,8 @@ import { useNotifcationValue } from './NotificationContext';
 import { useLoginDispatch, useLoginValue } from './LoginContext';
 import { Route, Routes } from 'react-router-dom';
 import Users from './components/Pages/Users';
+import { useQuery } from '@tanstack/react-query';
+import { UserDetail } from './components/Fragment/User';
 
 const App = () => {
   const user = useLoginValue();
@@ -17,6 +19,13 @@ const App = () => {
   const notification = useNotifcationValue();
 
   const blogAddRef = useRef(null);
+
+  const result = useQuery({
+    queryKey: [''],
+    queryFn: blogService.getAllUsers,
+    refetchOnWindowFocus: false,
+  });
+  const blogs = result.data;
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
@@ -51,6 +60,9 @@ const App = () => {
           />
         )}
         {user && <Route path="/users" element={<Users />} />}
+        {user && (
+          <Route path="/users/:id" element={<UserDetail blogs={blogs} />} />
+        )}
       </Routes>
     </>
   );
