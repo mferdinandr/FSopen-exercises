@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import ButtonClick from '../Elements/ButtonClick';
 import Header from '../Fragment/Header';
 import User from '../Fragment/User';
-import { useEffect } from 'react';
 
 const Users = () => {
   const result = useQuery({
