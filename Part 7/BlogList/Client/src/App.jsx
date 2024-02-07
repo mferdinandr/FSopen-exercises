@@ -60,21 +60,25 @@ const App = () => {
             element={<LoginForm setUser={setUser}></LoginForm>}
           />
         ) : (
-          <Route
-            path="/blogs"
-            element={
-              <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />
-            }
-          />
+          <>
+            <Route
+              path="/blogs"
+              element={
+                <Blogs setUser={setUser} user={user} blogAddRef={blogAddRef} />
+              }
+            />
+            <Route path="/" element={<LoginForm />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<UserDetail blogs={blogs} />} />
+            <Route path="/blogs" element={<Blogs blogAddRef={blogAddRef} />} />
+            <Route path="/blogs/:id" element={<BlogDetail users={users} />} />
+          </>
         )}
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:id" element={<UserDetail blogs={blogs} />} />
-        <Route path="/blogs" element={<Blogs blogAddRef={blogAddRef} />} />
-        <Route path="/blogs/:id" element={<BlogDetail users={users} />} />
-        {/* {user && (
-          <Route path="/blogs/:id" element
-          ={<UserDetail blogs={blogs} />} />
-        )} */}
+
+        <Route
+          path="*"
+          element={<h1 className="font-bold text-3xl m-10">404 Not Found</h1>}
+        />
       </Routes>
     </>
   );

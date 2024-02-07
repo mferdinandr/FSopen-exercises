@@ -7,8 +7,10 @@ import { useNotifcationDispatch } from '../../NotificationContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import Header from './Header';
+import { useState } from 'react';
 
 export const BlogDetail = ({ users }) => {
+  const [data, setData] = useState([]);
   const match = useMatch('/blogs/:id');
   const notificationDispatch = useNotifcationDispatch();
   const queryClient = useQueryClient();
