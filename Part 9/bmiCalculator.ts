@@ -1,8 +1,3 @@
-interface Values {
-  value1: number;
-  value2: number;
-}
-
 const parseArgument = (args: Array<string>) => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 4) throw new Error('To many arguments');
