@@ -32,7 +32,10 @@ interface Result {
   average: number;
 }
 
-const calculateExercise = (args: Array<number>, target: number): Result => {
+export const calculateExercise = (
+  args: Array<number>,
+  target: number
+): Result => {
   const periodLength = args.length;
   const trainingDays = args.filter((a) => a !== 0).length;
   const average = args.reduce((a, b) => a + b, 0) / periodLength;
